@@ -8,7 +8,7 @@ services:
     container_name: ollama
     volumes:
       - ollama_data:/root/.ollama
-    entrypoint: ["/bin/sh", "-c", "ollama serve & sleep 2 && ollama pull mistral && wait"]
+    entrypoint: ["/bin/sh", "-c", "ollama serve & sleep 2 && ollama pull gemma:2b && wait"]
     networks:
       - external-sol-apis
       - logging-network
@@ -24,7 +24,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 4000M
+          memory: 5G
 
 volumes:
   ollama_data:
