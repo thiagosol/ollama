@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  ollama:
+    image: ollama
+    pull_policy: never
+    restart: always
+    container_name: ollama
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - external-sol-apis
+      - logging-network
+      - chat-network
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://loki:3100/loki/api/v1/push"
+        loki-external-labels: "service=ollama,type=ia"
+        loki-retries: "5"
+        loki-batch-size: "400"
+        mode: "non-blocking"
+    deploy:
+      resources:
+        limits:
+          memory: 4000M
+
+volumes:
+  ollama_data:
+
+networks:
+  chat-network:
+    external: true
+  logging-network:
+    external: true
+  external-sol-apis:
+    external: true
