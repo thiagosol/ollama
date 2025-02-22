@@ -8,6 +8,7 @@ services:
     container_name: ollama
     volumes:
       - ollama_data:/root/.ollama
+    entrypoint: ["/bin/sh", "-c", "ollama serve & sleep 2 && ollama pull mistral && wait"]
     networks:
       - external-sol-apis
       - logging-network
